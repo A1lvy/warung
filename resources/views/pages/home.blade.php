@@ -37,83 +37,11 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                <!-- Minyak goreng -->
-                <div class="flex flex-col items-center">
-                    <div class="relative w-[300px] h-[300px]">
-                        <img src="{{ asset('images/ellipse-bg.svg') }}" alt=""
-                             class="absolute inset-0 w-full h-full object-contain"
-                             onerror="this.style.display='none'">
-                        <div class="absolute inset-6 rounded-full overflow-hidden">
-                            <img src="{{ asset('images/product-hero.png') }}" alt="Minyak goreng"
-                                 class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <p class="text-[#615a57] text-2xl mt-4 font-normal">Minyak goreng</p>
-                    <p class="text-[#615a57] text-base">IDR 11.500</p>
-                    <div class="mt-3 flex items-center gap-2 w-full max-w-xs">
-                        <div class="qty-control flex items-center border border-[#2b2925] rounded-xl overflow-hidden">
-                            <button class="qty-decrease px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold">&minus;</button>
-                            <input type="number" class="qty-input w-10 text-center text-sm bg-transparent border-none outline-none text-[#2b2925]" value="1" min="0" readonly>
-                            <button class="qty-increase px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold">+</button>
-                        </div>
-                        <a href="{{ route('checkout') }}"
-                           class="bg-[#2b2925] text-[#efe9de] font-bold text-base rounded-[40px] px-6 py-2 hover:bg-[#3d3730] transition-colors flex-1 text-center">
-                            Pesan
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Gula pasir -->
-                <div class="flex flex-col items-center">
-                    <div class="relative w-[300px] h-[300px]">
-                        <img src="{{ asset('images/ellipse-bg.svg') }}" alt=""
-                             class="absolute inset-0 w-full h-full object-contain"
-                             onerror="this.style.display='none'">
-                        <div class="absolute inset-6 rounded-full overflow-hidden">
-                            <img src="{{ asset('images/product-hero.png') }}" alt="Gula pasir"
-                                 class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <p class="text-[#615a57] text-2xl mt-4 font-normal">Gula pasir</p>
-                    <p class="text-[#615a57] text-base">IDR 11.500</p>
-                    <div class="mt-3 flex items-center gap-2 w-full max-w-xs">
-                        <div class="qty-control flex items-center border border-[#2b2925] rounded-xl overflow-hidden">
-                            <button class="qty-decrease px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold">&minus;</button>
-                            <input type="number" class="qty-input w-10 text-center text-sm bg-transparent border-none outline-none text-[#2b2925]" value="1" min="0" readonly>
-                            <button class="qty-increase px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold">+</button>
-                        </div>
-                        <a href="{{ route('checkout') }}"
-                           class="bg-[#2b2925] text-[#efe9de] font-bold text-base rounded-[40px] px-6 py-2 hover:bg-[#3d3730] transition-colors flex-1 text-center">
-                            Pesan
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Tepung terigu -->
-                <div class="flex flex-col items-center">
-                    <div class="relative w-[300px] h-[300px]">
-                        <img src="{{ asset('images/ellipse-bg.svg') }}" alt=""
-                             class="absolute inset-0 w-full h-full object-contain"
-                             onerror="this.style.display='none'">
-                        <div class="absolute inset-6 rounded-full overflow-hidden">
-                            <img src="{{ asset('images/product-hero.png') }}" alt="Tepung terigu"
-                                 class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <p class="text-[#615a57] text-2xl mt-4 font-normal">Tepung terigu</p>
-                    <p class="text-[#615a57] text-base">IDR 11.500</p>
-                    <div class="mt-3 flex items-center gap-2 w-full max-w-xs">
-                        <div class="qty-control flex items-center border border-[#2b2925] rounded-xl overflow-hidden">
-                            <button class="qty-decrease px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold">&minus;</button>
-                            <input type="number" class="qty-input w-10 text-center text-sm bg-transparent border-none outline-none text-[#2b2925]" value="1" min="0" readonly>
-                            <button class="qty-increase px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold">+</button>
-                        </div>
-                        <a href="{{ route('checkout') }}"
-                           class="bg-[#2b2925] text-[#efe9de] font-bold text-base rounded-[40px] px-6 py-2 hover:bg-[#3d3730] transition-colors flex-1 text-center">
-                            Pesan
-                        </a>
-                    </div>
-                </div>
+                @forelse($viralProducts as $product)
+                    <x-product-card :product="$product" variant="viral" />
+                @empty
+                    <p class="text-[#615a57] text-lg col-span-3 text-center">Belum ada produk viral saat ini.</p>
+                @endforelse
             </div>
         </div>
     </section>

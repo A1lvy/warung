@@ -2,18 +2,53 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
     public function home()
     {
-        return view('pages.home');
+        $viralProducts = Product::active()
+            ->with('category')
+            ->take(3)
+            ->get();
+
+        return view('pages.home', [
+            'viralProducts' => $viralProducts,
+        ]);
     }
 
     public function belanja()
     {
-        return view('pages.belanja');
+        $categories = Category::active()->with(['products' => function ($query) {
+            $query->active();
+        }])->get();
+
+        $sembakoCategory = Category::active()->where('slug', 'sembako-pokok')->first();
+
+        $sembakoProducts = $sembakoCategory
+            ? $sembakoCategory->products()->active()->take(5)->get()
+            : Product::active()->take(5)->get();
+
+        $otherProducts = Product::active()
+            ->when($sembakoCategory, function ($query) use ($sembakoCategory) {
+                $query->where('category_id', '!=', $sembakoCategory->id);
+            })
+            ->take(6)
+            ->get();
+
+        if ($otherProducts->isEmpty()) {
+            $otherProducts = Product::active()->skip(5)->take(6)->get();
+        }
+
+        return view('pages.belanja', [
+            'categories' => $categories,
+            'sembakoCategory' => $sembakoCategory,
+            'sembakoProducts' => $sembakoProducts,
+            'otherProducts' => $otherProducts,
+        ]);
     }
 
     public function pelayanan()
