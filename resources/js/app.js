@@ -9,17 +9,29 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Cart quantity controls
+    // Cart quantity controls for client-side forms
     document.querySelectorAll('.qty-increase').forEach(btn => {
         btn.addEventListener('click', function () {
             const input = this.closest('.qty-control').querySelector('.qty-input');
-            if (input) input.value = parseInt(input.value || 0) + 1;
+            if (input) {
+                const max = parseInt(input.getAttribute('max') || '999');
+                const current = parseInt(input.value || '1');
+                if (current < max) {
+                    input.value = current + 1;
+                }
+            }
         });
     });
     document.querySelectorAll('.qty-decrease').forEach(btn => {
         btn.addEventListener('click', function () {
             const input = this.closest('.qty-control').querySelector('.qty-input');
-            if (input && parseInt(input.value) > 0) input.value = parseInt(input.value) - 1;
+            if (input) {
+                const min = parseInt(input.getAttribute('min') || '1');
+                const current = parseInt(input.value || '1');
+                if (current > min) {
+                    input.value = current - 1;
+                }
+            }
         });
     });
 });

@@ -14,7 +14,14 @@
 
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                 @forelse($sembakoProducts as $product)
-                    <x-product-card :product="$product" variant="simple" />
+                    <form action="{{ route('cart.add') }}" method="POST" class="block">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="w-full text-left cursor-pointer group" title="Tambah {{ $product->name }} ke keranjang">
+                            <x-product-card :product="$product" variant="simple" />
+                        </button>
+                    </form>
                 @empty
                     <p class="text-[#615a57] col-span-full">Belum ada produk sembako.</p>
                 @endforelse
@@ -34,9 +41,14 @@
 
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
                 @forelse($otherProducts as $product)
-                    <a href="{{ route('checkout') }}" class="block">
-                        <x-product-card :product="$product" variant="simple" />
-                    </a>
+                    <form action="{{ route('cart.add') }}" method="POST" class="block">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="w-full text-left cursor-pointer group" title="Tambah {{ $product->name }} ke keranjang">
+                            <x-product-card :product="$product" variant="simple" />
+                        </button>
+                    </form>
                 @empty
                     <p class="text-[#615a57] col-span-full">Belum ada pilihan produk lainnya.</p>
                 @endforelse

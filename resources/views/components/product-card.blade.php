@@ -15,8 +15,9 @@
     $productPrice = $product ? $product->formatted_price : ($price ?? 'IDR 11.500');
     $productImage = $product?->image_path ?? $image ?? 'images/product-card.png';
     $productUnit = $product?->unit ?? $unit;
-    $productStock = $product?->stock ?? $stock;
+    $productStock = $product?->stock ?? $stock ?? 99;
     $productSlug = $product?->slug ?? $slug;
+    $productId = $product?->id;
 @endphp
 
 @if($variant === 'viral')
@@ -34,18 +35,20 @@
         </div>
         <p class="text-[#615a57] text-2xl mt-4 font-normal">{{ $productName }}</p>
         <p class="text-[#615a57] text-base">{{ $productPrice }}</p>
-        @if($showOrder)
-        <div class="mt-3 flex items-center gap-2 w-full max-w-xs">
+        @if($showOrder && $productId)
+        <form action="{{ route('cart.add') }}" method="POST" class="mt-3 flex items-center gap-2 w-full max-w-xs">
+            @csrf
+            <input type="hidden" name="product_id" value="{{ $productId }}">
             <div class="qty-control flex items-center border border-[#2b2925] rounded-xl overflow-hidden">
-                <button class="qty-decrease px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold">&minus;</button>
-                <input type="number" class="qty-input w-10 text-center text-sm bg-transparent border-none outline-none text-[#2b2925]" value="1" min="0" readonly>
-                <button class="qty-increase px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold">+</button>
+                <button type="button" class="qty-decrease px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold cursor-pointer">&minus;</button>
+                <input type="number" name="quantity" class="qty-input w-10 text-center text-sm bg-transparent border-none outline-none text-[#2b2925]" value="1" min="1" max="{{ $productStock }}" readonly>
+                <button type="button" class="qty-increase px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold cursor-pointer">+</button>
             </div>
-            <a href="{{ route('checkout') }}"
-               class="bg-[#2b2925] text-[#efe9de] font-bold text-base rounded-[40px] px-6 py-2 hover:bg-[#3d3730] transition-colors flex-1 text-center">
+            <button type="submit"
+               class="bg-[#2b2925] text-[#efe9de] font-bold text-base rounded-[40px] px-6 py-2 hover:bg-[#3d3730] transition-colors flex-1 text-center cursor-pointer">
                 Pesan
-            </a>
-        </div>
+            </button>
+        </form>
         @endif
     </div>
 @elseif($variant === 'simple')
@@ -70,21 +73,23 @@
         <div class="p-3">
             <p class="text-[#615a57] text-xl font-normal leading-tight">{{ $productName }}</p>
             <p class="text-[#615a57] text-sm mt-1">{{ $productPrice }}</p>
-            @if($showOrder)
-            <div class="mt-3 flex items-center gap-2">
+            @if($showOrder && $productId)
+            <form action="{{ route('cart.add') }}" method="POST" class="mt-3 flex items-center gap-2">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $productId }}">
                 <div class="qty-control flex items-center border border-[#2b2925] rounded-xl overflow-hidden">
-                    <button class="qty-decrease px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold">
+                    <button type="button" class="qty-decrease px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold cursor-pointer">
                         &minus;
                     </button>
-                    <input type="number" class="qty-input w-10 text-center text-sm border-none outline-none bg-transparent text-[#2b2925]" value="1" min="0" readonly>
-                    <button class="qty-increase px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold">
+                    <input type="number" name="quantity" class="qty-input w-10 text-center text-sm border-none outline-none bg-transparent text-[#2b2925]" value="1" min="1" max="{{ $productStock }}" readonly>
+                    <button type="button" class="qty-increase px-3 py-2 text-[#2b2925] hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors text-sm font-bold cursor-pointer">
                         +
                     </button>
                 </div>
-                <a href="{{ route('checkout') }}" class="btn-primary text-sm py-2 px-5 rounded-[40px] text-center flex-1 text-center">
+                <button type="submit" class="btn-primary text-sm py-2 px-5 rounded-[40px] text-center flex-1 text-center cursor-pointer">
                     Pesan
-                </a>
-            </div>
+                </button>
+            </form>
             @endif
         </div>
     </div>
