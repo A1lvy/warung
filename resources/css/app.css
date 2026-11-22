@@ -1,0 +1,44 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Source Serif Pro', ui-serif, Georgia, Cambria, serif;
+    --color-cream: #efe9de;
+    --color-taupe: #b9ac99;
+    --color-dark: #2b2925;
+    --color-muted: #615a57;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+    body {
+        font-family: 'Source Serif Pro', ui-serif, Georgia, Cambria, serif;
+        background-color: #efe9de;
+        color: #2b2925;
+    }
+}
+
+@layer components {
+    .btn-primary {
+        @apply bg-[#2b2925] text-[#efe9de] font-bold rounded-[40px] px-8 py-3 hover:bg-[#3d3730] transition-colors duration-200 cursor-pointer inline-block;
+    }
+    .btn-outline {
+        @apply bg-[#efe9de] border border-[#2b2925] text-[#2b2925] font-bold rounded-[12px] px-6 py-3 hover:bg-[#2b2925] hover:text-[#efe9de] transition-colors duration-200 cursor-pointer inline-block;
+    }
+    .nav-link {
+        @apply text-[#2b2925] text-base font-normal hover:text-[#615a57] transition-colors duration-200;
+    }
+    .nav-link.active {
+        @apply font-bold;
+    }
+    .product-card {
+        @apply bg-white rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-200;
+    }
+    .section-title {
+        @apply font-bold text-[#2b2925] text-4xl;
+    }
+}
